@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <WarnOn>3390;$(WarnOn)</WarnOn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Colour.fs" />
+    <Compile Include="Ray.fs" />
+    <Compile Include="Geometries\Common.fs" />
+    <Compile Include="Geometries\Transformations.fs" />
+    <Compile Include="Geometries\Cube.fs" />
+    <Compile Include="Geometries\Cylinder.fs" />
+    <Compile Include="Geometries\Group.fs" />
+    <Compile Include="Geometries\Plane.fs" />
+    <Compile Include="Geometries\Sphere.fs" />
+    <Compile Include="Geometries\TriangleMesh.fs" />
+    <Compile Include="Materials\Common.fs" />
+    <Compile Include="Materials\CartesianBoxMaterial.fs" />
+    <Compile Include="Materials\CartesianRingMaterial.fs" />
+    <Compile Include="Materials\PolarMaterial.fs" />
+    <Compile Include="Materials\PolarBoxMaterial.fs" />
+    <Compile Include="Materials\SolidMaterial.fs" />
+    <Compile Include="Materials\TransformedMaterial.fs" />
+    <Compile Include="Scene.fs" />
+    <Compile Include="PhongModel.fs" />
+    <Compile Include="Reflection.fs" />
+    <Compile Include="Constructive Solid Geometry\Common.fs" />
+    <Compile Include="Constructive Solid Geometry\Intersection.fs" />
+    <Compile Include="Constructive Solid Geometry\Union.fs" />
+    <Compile Include="Constructive Solid Geometry\Difference.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>
