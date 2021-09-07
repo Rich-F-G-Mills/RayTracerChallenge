@@ -133,10 +133,10 @@ module TriangleMesh =
         { Vertices = List.empty; Mesh = mesh }
 
     let addVertexWithNormal vertex face: FaceWithNormalsInProgress =
-        { face with Vertices = vertex :: face.Vertices }
+        { face with Vertices = (VertexWithNormal vertex) :: face.Vertices }
 
     let addVertexWithoutNormal vertex face: FaceWithoutNormalsInProgress =
-        { face with Vertices = vertex :: face.Vertices }
+        { face with Vertices = (VertexWithoutNormal vertex) :: face.Vertices }
 
     let endFaceWithNormals ({ Vertices = vertices; Mesh = Mesh faces }: FaceWithNormalsInProgress) =
         Mesh ((FaceWithNormals (List.rev vertices)) :: faces)
@@ -192,7 +192,8 @@ module TriangleMesh =
 
 
     let finalize invertNormals interpolateNormals =
-        (meshToTriangles invertNormals) >> (trianglesToGeometry interpolateNormals)       
+        (meshToTriangles invertNormals)
+        >> (trianglesToGeometry interpolateNormals)       
    
 
 

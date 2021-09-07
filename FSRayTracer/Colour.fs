@@ -10,7 +10,6 @@ do()
 module public Colour =
 
     open System
-    open System.Numerics
     open System.Runtime.CompilerServices
 
 

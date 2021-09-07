@@ -17,11 +17,11 @@ type public ``Chapter 15: Triangles`` (output: ITestOutputHelper) =
 
     static let defaultTriangleGeom =
         createEmptyMesh ()
-        |> beginFace
-            |> addVertex p1
-            |> addVertex p2
-            |> addVertex p3
-        |> endFace
+        |> beginFaceWithoutNormals
+            |> addVertexWithoutNormal p1
+            |> addVertexWithoutNormal p2
+            |> addVertexWithoutNormal p3
+        |> endFaceWithoutNormals
         |> finalize false false
 
 
@@ -86,13 +86,13 @@ type public ``Chapter 15: Triangles`` (output: ITestOutputHelper) =
     [<Fact>]
     let ``Can parse single OBJ face from file`` () =
         match OBJFile.loadToMesh "OBJ TEST.OBJ" with
-        | Mesh [Face face] ->
+        | Mesh [FaceWithoutNormals face] ->
             let expected =
-                [Vector3(-1.0f, 1.0f, 0.0f)
-                 Vector3(-1.0f, 0.0f, 0.0f)
-                 Vector3(1.0f, 0.0f, 0.0f)
-                 Vector3(1.0f, 1.0f, 0.0f)
-                 Vector3(0.0f, 2.0f, 0.0f)]
+                [VertexWithoutNormal (Vector3(-1.0f, 1.0f, 0.0f))
+                 VertexWithoutNormal (Vector3(-1.0f, 0.0f, 0.0f))
+                 VertexWithoutNormal (Vector3(1.0f, 0.0f, 0.0f))
+                 VertexWithoutNormal (Vector3(1.0f, 1.0f, 0.0f))
+                 VertexWithoutNormal (Vector3(0.0f, 2.0f, 0.0f))]
                 
             Assert.StrictEqual(expected, face)
 

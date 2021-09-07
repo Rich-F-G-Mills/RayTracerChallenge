@@ -5,13 +5,9 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSRayTracer", "FSRayTracer\FSRayTracer.fsproj", "{6208AC85-9C10-48A3-972E-C4069FA37114}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Benchmarking", "Benchmarking\Benchmarking.fsproj", "{E0AD5E4D-F400-4C6F-ACC1-5DEF27155B5D}"
-EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SandBox", "SandBox\SandBox.fsproj", "{8AC0F43D-C10C-4EE9-A4ED-86E18F86EED6}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "TestPack", "TestPack\TestPack.fsproj", "{EC433628-C7C2-49B0-B1CD-AEF732CEDA1E}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OBJReader", "OBJReader\OBJReader.fsproj", "{6340C973-F54F-43D5-9E89-B4DF7D08F680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +19,6 @@ Global
 		{6208AC85-9C10-48A3-972E-C4069FA37114}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6208AC85-9C10-48A3-972E-C4069FA37114}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6208AC85-9C10-48A3-972E-C4069FA37114}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0AD5E4D-F400-4C6F-ACC1-5DEF27155B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0AD5E4D-F400-4C6F-ACC1-5DEF27155B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0AD5E4D-F400-4C6F-ACC1-5DEF27155B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0AD5E4D-F400-4C6F-ACC1-5DEF27155B5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8AC0F43D-C10C-4EE9-A4ED-86E18F86EED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8AC0F43D-C10C-4EE9-A4ED-86E18F86EED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AC0F43D-C10C-4EE9-A4ED-86E18F86EED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,10 +27,6 @@ Global
 		{EC433628-C7C2-49B0-B1CD-AEF732CEDA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC433628-C7C2-49B0-B1CD-AEF732CEDA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC433628-C7C2-49B0-B1CD-AEF732CEDA1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6340C973-F54F-43D5-9E89-B4DF7D08F680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6340C973-F54F-43D5-9E89-B4DF7D08F680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6340C973-F54F-43D5-9E89-B4DF7D08F680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6340C973-F54F-43D5-9E89-B4DF7D08F680}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

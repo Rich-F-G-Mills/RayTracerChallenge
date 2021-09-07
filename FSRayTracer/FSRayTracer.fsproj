@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" />
     <Compile Include="Colour.fs" />
     <Compile Include="Ray.fs" />
     <Compile Include="Geometries\Common.fs" />
@@ -36,6 +37,8 @@
     <Compile Include="Constructive Solid Geometry\Union.fs" />
     <Compile Include="Constructive Solid Geometry\Difference.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="FSharpx.Extras" Version="3.0.0" />

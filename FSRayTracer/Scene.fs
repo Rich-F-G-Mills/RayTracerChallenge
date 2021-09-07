@@ -6,7 +6,6 @@ module public Scene =
 
     open System
     open System.Numerics
-    open System.Runtime.CompilerServices
     open FSRayTracer.Geometries
     open FSRayTracer.Materials
 
@@ -66,7 +65,7 @@ module public Scene =
         Scene (newSceneObject :: sceneObjects)
 
 
-    let transformedToWorldIntersectionPoint (sceneObject: SceneObject) (transformedIntersection: TransformedIntersectionPoint) =
+    let transformedToWorldIntersectionPoint sceneObject (transformedIntersection: TransformedIntersectionPoint) =
         { SceneObject = sceneObject
           WorldLocation = transformedIntersection.Location
           WorldNormal = transformedIntersection.Normal
@@ -88,7 +87,7 @@ module public Scene =
         |> List.sortBy (fun i -> i.Distance)
 
 
-    let getWorldTransformation (viewSettings: ViewSettings) =
+    let getWorldTransformation viewSettings =
         let forward =
             Vector3.Normalize(viewSettings.To - viewSettings.From)
 
@@ -132,7 +131,7 @@ module public Scene =
           InverseViewTransformation = invertTransformationMatrix worldTransformation }
 
 
-    let getRayForPixel transformedCamera (px: float32, py: float32) =
+    let getRayForPixel transformedCamera (px, py) =
         let xOffset = (px + 0.5f) * transformedCamera.PixelSize
         let yOffset = (py + 0.5f) * transformedCamera.PixelSize
 
