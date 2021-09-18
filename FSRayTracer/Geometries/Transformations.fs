@@ -8,15 +8,24 @@ module public Transformations =
     open System.Runtime.CompilerServices
     open FSRayTracer
 
+    /// <summary>
+    /// Wrapper for a transformation matrix.
+    /// </summary>
     type Transformation = 
         | Transformation of Matrix4x4
 
+    /// <summary>
+    /// Combines a <c>Geometry</c> with a <c>Transformation</c>.
+    /// </summary>
     type TransformedGeometry =
         { Geometry: Geometry
           Transformation: Matrix4x4
           InverseTransformation: Matrix4x4
           TransposeInverseTransformation: Matrix4x4 }
 
+    /// <summary>
+    /// Represents a point of intersection in world space.
+    /// </summary>
     type TransformedIntersectionPoint =
         { Distance: float32
           Location: Vector4
@@ -24,11 +33,10 @@ module public Transformations =
           Normal: Vector4
           Inside: bool }
 
-
     let internal combineTransformationMatrices (t1: Matrix4x4, t2: Matrix4x4) =
         Matrix4x4.Multiply(t1, t2)
 
-    let internal invertTransformationMatrix (transformation: Matrix4x4) =
+    let internal invertTransformationMatrix transformation =
         match Matrix4x4.Invert(transformation) with
         | (true, inv) -> inv
         | _ -> failwith "Unable to invert transformation."
@@ -63,6 +71,14 @@ module public Transformations =
         Matrix4x4.CreateRotationZ(r, origin)
         |> Transformation
 
+    let internal createShearing (xInPropY, xInPropZ, yInPropX, yInPropZ, zInPropX, zInPropY) =
+        Matrix4x4(
+            1.0f, yInPropX, zInPropX, 0.0f,
+            xInPropY, 1.0f, zInPropY, 0.0f,
+            xInPropZ, yInPropZ, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f
+        )|> Transformation
+
     let applyNullTransformation =
         combineTransformations identityTransformation        
 
@@ -81,6 +97,12 @@ module public Transformations =
     let applyRotationZ =
         createRotationZ >> combineTransformations
 
+    let applyShearing =
+        createShearing >> combineTransformations
+
+    /// <summary>
+    /// Combines an untransformed <c>Geometry</c> with a <c>Transformation</c>
+    /// </summary>
     let createTransformedGeometry geometry transformer =
         let (Transformation transformation) =
             identityTransformation |> transformer
@@ -92,8 +114,11 @@ module public Transformations =
           InverseTransformation = inverseTransformation
           TransposeInverseTransformation = Matrix4x4.Transpose(inverseTransformation) }
 
-
-    let objectToTransformedIntersection transformedGeometry (objIntersection: ObjectIntersectionPoint) =
+    
+    /// <summary>
+    /// Converts an intersection point in (untransformed) object space to that in world space.
+    /// </summary>
+    let objectIntersectionToTransformedIntersection transformedGeometry (objIntersection: ObjectIntersectionPoint) =
         let transformedLocation =
             Vector4.Transform(
                 objIntersection.Location, 
@@ -113,23 +138,28 @@ module public Transformations =
           Normal = transformedNormal
           Inside = objIntersection.Inside }
 
-
-    let transformedToObjectIntersectionPoint transformedIntersection =
+    /// <summary>
+    /// Treate an intersection point in world space as if it was in object space.
+    /// This is useful for nested geometries where the top-level scene object is ultimately expecting all intersections to be in object space.
+    /// </summary>
+    let transformedIntersectionToObjectIntersection transformedIntersection =
         { Distance = transformedIntersection.Distance
           Location = transformedIntersection.Location
           Normal = transformedIntersection.Normal
           Inside = transformedIntersection.Inside }
 
-
+    /// <summary>
+    /// Determines intersections (in world space) between a transformed geometry and light ray.
+    /// </summary>
     let getTransformedGeometryIntersections (ray: Ray) (transformedGeometry: TransformedGeometry) =
-        let _objectToTransformedIntersection =
-            objectToTransformedIntersection transformedGeometry
+        let _objectIntersectionToTransformedIntersection =
+            objectIntersectionToTransformedIntersection transformedGeometry
 
         let transRayOrigin =
             Vector4.Transform(ray.Origin, transformedGeometry.InverseTransformation)
 
         let transRayDirection =
-            // Don't normalize the direction as this would back-out any transformations made.
+            // Do NOT normalize the direction as this would back-out any transformations made.
             Vector4.Transform(ray.Direction, transformedGeometry.InverseTransformation)
 
         let transRay =
@@ -138,5 +168,5 @@ module public Transformations =
         transRay
         |> getGeometryIntersections transformedGeometry.Geometry
         |> List.sortBy (fun i -> i.Distance)
-        |> List.map _objectToTransformedIntersection
+        |> List.map _objectIntersectionToTransformedIntersection
     

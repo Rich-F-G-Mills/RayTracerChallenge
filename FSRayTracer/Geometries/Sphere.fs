@@ -42,6 +42,9 @@ module Sphere =
 
             [tToIntersectionPoint t1 false; tToIntersectionPoint (MathF.Max(t1 + Single.Epsilon, t2)) true]
 
-    
+
+    /// <summary>
+    /// Create a sphere of unit radius centered at the origin.
+    /// </summary>    
     let geometry =
         Geometry ("Sphere", Intersector intersector)

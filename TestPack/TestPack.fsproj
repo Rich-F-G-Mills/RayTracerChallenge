@@ -12,6 +12,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Common.fs" />
+    <Compile Include="Chapter 4.fs" />
     <Compile Include="Chapter 5.fs" />
     <Compile Include="Chapter 6.fs" />
     <Compile Include="Chapter 7.fs" />
@@ -19,6 +20,7 @@
     <Compile Include="Chapter 9.fs" />
     <Compile Include="Chapter 12.fs" />
     <Compile Include="Chapter 13.fs" />
+    <Compile Include="Chapter 14.fs" />
     <Compile Include="Chapter 15.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

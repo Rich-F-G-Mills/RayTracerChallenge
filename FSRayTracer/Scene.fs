@@ -19,6 +19,7 @@ module public Scene =
         | Scene of SceneObject list
 
 
+    // Keep public as this allows alternative colourizers to be used.
     type SceneIntersectionPoint =
         { SceneObject: SceneObject
           WorldLocation: Vector4
@@ -65,7 +66,7 @@ module public Scene =
         Scene (newSceneObject :: sceneObjects)
 
 
-    let transformedToWorldIntersectionPoint sceneObject (transformedIntersection: TransformedIntersectionPoint) =
+    let internal transformedIntersectionToWorldIntersection sceneObject transformedIntersection =
         { SceneObject = sceneObject
           WorldLocation = transformedIntersection.Location
           WorldNormal = transformedIntersection.Normal
@@ -74,20 +75,20 @@ module public Scene =
           Inside = transformedIntersection.Inside }
 
 
-    let getWorldIntersections (Scene sceneObjects) ray = 
+    let internal getWorldIntersections (Scene sceneObjects) ray = 
         let _getTransformedGeometryIntersections =
             getTransformedGeometryIntersections ray
 
         sceneObjects
         |> List.map (fun sceneObject ->
             _getTransformedGeometryIntersections sceneObject.TransformedGeometry
-            |> List.map (transformedToWorldIntersectionPoint sceneObject))
+            |> List.map (transformedIntersectionToWorldIntersection sceneObject))
         |> List.concat
         |> List.filter (fun i -> i.Distance >= 0.0f)
         |> List.sortBy (fun i -> i.Distance)
 
 
-    let getWorldTransformation viewSettings =
+    let private getWorldTransformation viewSettings =
         let forward =
             Vector3.Normalize(viewSettings.To - viewSettings.From)
 
@@ -96,6 +97,12 @@ module public Scene =
         let left = Vector3.Cross(forward, up)
 
         let trueUp = Vector3.Cross(left, forward)
+
+        // TODO - Could use the following be used instead?
+        // let orientation =
+        //     Matrix4x4.CreateLookAt(viewSettings.From, viewSettings.To, trueUp)
+
+        // ...or possibly Matrix4x4.CreateWorld ???
 
         let orientation =
             Matrix4x4(
@@ -111,7 +118,7 @@ module public Scene =
         combineTransformationMatrices (translation, orientation)
 
 
-    let getTransformedCamera cameraSettings worldTransformation =
+    let internal getTransformedCamera cameraSettings worldTransformation =
         let halfView = MathF.Tan(cameraSettings.FieldOfView / 2.0f)
         
         let aspectRatio = cameraSettings.Width / cameraSettings.Height
@@ -131,7 +138,7 @@ module public Scene =
           InverseViewTransformation = invertTransformationMatrix worldTransformation }
 
 
-    let getRayForPixel transformedCamera (px, py) =
+    let internal getRayForPixel transformedCamera (px, py) =
         let xOffset = (px + 0.5f) * transformedCamera.PixelSize
         let yOffset = (py + 0.5f) * transformedCamera.PixelSize
 

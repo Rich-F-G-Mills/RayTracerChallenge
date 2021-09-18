@@ -60,7 +60,9 @@ module Cube =
             [tToIntersectionPoint tMin false
              tToIntersectionPoint (MathF.Max(tMin + Single.Epsilon, tMax)) true]            
 
-
+    /// <summary>
+    /// Represents a cube centered at the origin and extending from -1.0 to +1.0 along each axis.
+    /// </summary>
     let geometry =
         Geometry ("Cube", Intersector intersector)
 

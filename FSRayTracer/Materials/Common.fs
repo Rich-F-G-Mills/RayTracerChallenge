@@ -15,7 +15,9 @@ module Common =
           Diffuse: float32
           Specular: float32
           Shininess: float32
-          Reflectivity: float32 }
+          Reflectivity: float32
+          Transparency: float32
+          RefractiveIndex: float32 }
 
         static member Default =
             { Colour = Colour.White 

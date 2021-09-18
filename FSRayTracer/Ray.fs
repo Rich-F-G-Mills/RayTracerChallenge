@@ -8,6 +8,9 @@ module public Ray =
     open System.Runtime.CompilerServices
 
 
+    /// <summary>
+    /// Represents a ray of light.
+    /// </summary>
     [<Struct; IsReadOnly>]
     type Ray =
         { Origin: Vector4

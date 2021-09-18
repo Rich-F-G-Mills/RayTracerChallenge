@@ -1,5 +1,5 @@
 ﻿
-# FS Ray Tracer
+# F# Ray Tracer
 
 This project contains all the logic needed to implement the ray tracing approach provided by _The Ray Tracer Challenge_ book.
 
@@ -13,15 +13,25 @@ The exposed API has the following main aspects:
   - As an example, the basic sphere geometry only provides for a unit sphere centered at the world origin.
   - In order to use such a sphere within a scene, it will likely need to be both scaled and translated.
 
-* **Materials** - Provide a mapping (via a _material mapper_) between a point on a geometry in object space and a colour to be rendered.
-  - This mapping depends on characteristics of the material itself (eg. shininess) and light sources within the scene.
+* **Materials** - Provide a mapping (via a _material mapper_) between a point on a geometry in object space and the material to be rendered.
+  - They have properties such as _shinyness_ and _relfectiveness_ (for example).
 
 * **Scene Objects** - This is a combination of a _geometry_, _transformation_ and _material_.
 
 * **Scene** - Represents a collection of _scene objects_ that can be rendered.
 
+* **View Settings** - Specifies the location of the 'camera' used to render the scene.
+
+* **Camera Settings** - Specifies the properties of the 'canvas' onto which the scene will be rendered.
+
+* **Light Sources** - Represent point-lights in world space that have both colour and intensity.
+
+* **Colourizer** - Determines the colour of a point in world space based on what is located at that point (if anything), the material at that same location and the available lighting.
+ 
+* **Renderer** - Renders the scene using all of the inputs above.
+
 This is illustrated by the hierarchy below:
 
-[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbiAgICBHW0dlb21ldHJ5XSAtLT4gVEdbVHJhbnNmb3JtZWQgR2VvbWV0cnldXG4gICAgVFtUcmFuc2Zvcm1hdGlvbl0gLS0-IFRHXG4gICAgTVtNYXRlcmlhbF0gLS0-IFNPMVtTY2VuZSBPYmplY3RdXG4gICAgVEcgLS0-IFNPMVxuICAgIFNPMSAtLT4gU1tTY2VuZV1cblxuICAgIFNPMltTY2VuZSBPYmplY3QuLi5dIC0tPiBTXG4gICAgU08zW1NjZW5lIE9iamVjdC4uLl0gLS0-IFNcbiAgICBTTzRbLi4uXSAtLT4gU1xuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/edit##eyJjb2RlIjoiZ3JhcGggQlRcbiAgICBHW0dlb21ldHJ5XSAtLT4gVEdbVHJhbnNmb3JtZWQgR2VvbWV0cnldXG4gICAgVFtUcmFuc2Zvcm1hdGlvbl0gLS0-IFRHXG4gICAgTVtNYXRlcmlhbF0gLS0-IFNPMVtTY2VuZSBPYmplY3RdXG4gICAgVEcgLS0-IFNPMVxuICAgIFNPMSAtLT4gU1tTY2VuZV1cblxuICAgIFNPMltTY2VuZSBPYmplY3QuLi5dIC0tPiBTXG4gICAgU08zW1NjZW5lIE9iamVjdC4uLl0gLS0-IFNcbiAgICBTTzRbU2NlbmUgT2JqZWN0Li4uXSAtLT4gU1xuIiwibWVybWFpZCI6IntcbiAgXCJ0aGVtZVwiOiBcImRlZmF1bHRcIlxufSIsInVwZGF0ZUVkaXRvciI6ZmFsc2UsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbiAgICBHW0dlb21ldHJ5XSAtLT4gVEdbVHJhbnNmb3JtZWQgR2VvbWV0cnldXG4gICAgVFtUcmFuc2Zvcm1hdGlvbl0gLS0-IFRHXG4gICAgTVtNYXRlcmlhbF0gLS0-IFNPMVtTY2VuZSBPYmplY3RdXG4gICAgVEcgLS0-IFNPMVxuICAgIFNPMSAtLT4gU1tTY2VuZV1cblxuICAgIFNPMltTY2VuZSBPYmplY3QuLi5dIC0tPiBTXG4gICAgU08zW1NjZW5lIE9iamVjdC4uLl0gLS0-IFNcbiAgICBTTzRbLi4uXSAtLT4gU1xuXG4gICAgTFNbTGlnaHQgU291cmNlc10gLS0-IENbQ29sb3VyaXplcl0gXG5cbiAgICBTIC0tPiBSXG4gICAgVlNbVmlldyBTZXR0aW5nc10gLS0-IFJbUmVuZGVyZXJdXG4gICAgQ1NbQ2FtZXJhIFNldHRpbmdzXSAtLT4gUlxuICAgIEMgLS0-IFIiLCJtZXJtYWlkIjp7InRoZW1lIjoiZm9yZXN0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2UsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)](https://mermaid-js.github.io/mermaid-live-editor/edit/##eyJjb2RlIjoiZ3JhcGggQlRcbiAgICBHW0dlb21ldHJ5XSAtLT4gVEdbVHJhbnNmb3JtZWQgR2VvbWV0cnldXG4gICAgVFtUcmFuc2Zvcm1hdGlvbl0gLS0-IFRHXG4gICAgTVtNYXRlcmlhbF0gLS0-IFNPMVtTY2VuZSBPYmplY3RdXG4gICAgVEcgLS0-IFNPMVxuICAgIFNPMSAtLT4gU1tTY2VuZV1cblxuICAgIFNPMltTY2VuZSBPYmplY3QuLi5dIC0tPiBTXG4gICAgU08zW1NjZW5lIE9iamVjdC4uLl0gLS0-IFNcbiAgICBTTzRbLi4uXSAtLT4gU1xuXG4gICAgTFNbTGlnaHQgU291cmNlc10gLS0-IENbQ29sb3VyaXplcl0gXG5cbiAgICBTIC0tPiBSXG4gICAgVlNbVmlldyBTZXR0aW5nc10gLS0-IFJbUmVuZGVyZXJdXG4gICAgQ1NbQ2FtZXJhIFNldHRpbmdzXSAtLT4gUlxuICAgIENbQ29sb3VyaXplcl0gLS0-IFIiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZm9yZXN0XCJcbn0iLCJ1cGRhdGVFZGl0b3IiOmZhbHNlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6ZmFsc2V9)
 
-Please refer to the [SandBox](SandBox/Program.fs) program for an example.
+Please refer to the [SandBox](https://github.com/Rich-F-G-Mills/RayTracerChallenge/blob/master/SandBox/Program.fs) program for an example of creating and rendering a scene.

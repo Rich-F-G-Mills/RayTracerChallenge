@@ -100,6 +100,9 @@ module Cylinder =
             List.empty
 
 
+    /// <summary>
+    /// Represents a cylinder of unit radius, oriented along the y-axis and extending from -1.0 to +1.0 along that same xis.
+    /// </summary>
     let geometry =
         Geometry ("Cylinder", Intersector intersector)
             

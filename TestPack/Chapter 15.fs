@@ -1,6 +1,6 @@
 ﻿namespace FSRayTracerUnitTests
 
-open System.Collections.Generic
+
 open System.Numerics
 open Xunit
 open Xunit.Abstractions

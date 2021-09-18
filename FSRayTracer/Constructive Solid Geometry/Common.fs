@@ -87,7 +87,7 @@ module Common =
                     match pointValidator i with
                     | Some inside -> Some {t with Inside = inside}
                     | None -> None)
-                |> List.map transformedToObjectIntersectionPoint
+                |> List.map transformedIntersectionToObjectIntersection
 
             validIntersections
 
