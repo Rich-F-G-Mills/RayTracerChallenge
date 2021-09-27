@@ -30,7 +30,7 @@ module Cylinder =
                 Some { Distance = t
                        Location = touchPoint
                        Normal = if inside then -normal else normal
-                       Inside = inside }
+                       Inside = Some inside }
 
             else None
 
@@ -59,7 +59,7 @@ module Cylinder =
                 Some { Distance = t
                        Location = touchPoint
                        Normal = if inside then -normal else normal
-                       Inside = inside }
+                       Inside = Some inside }
 
             else None
 

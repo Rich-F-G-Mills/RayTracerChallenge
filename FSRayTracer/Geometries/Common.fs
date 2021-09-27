@@ -23,7 +23,13 @@ module Common =
         { Distance: float32
           Location: Vector4
           Normal: Vector4
-          Inside: bool }
+          /// <summary>
+          /// Represents whether the ray that arose a point of intersection is either:
+          /// | (Some false): Approaching from the outside.
+          /// | (Some true): Approaching from the inside.
+          /// | (None): Not applicable.
+          /// </summary>
+          Inside: bool option }
 
     /// <summary>
     /// Represents a mapping between a light ray and all intersections (if any) in object space.

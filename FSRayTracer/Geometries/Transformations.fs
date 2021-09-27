@@ -31,7 +31,7 @@ module public Transformations =
           Location: Vector4
           ObjectLocation: Vector4
           Normal: Vector4
-          Inside: bool }
+          Inside: bool option }
 
     let internal combineTransformationMatrices (t1: Matrix4x4, t2: Matrix4x4) =
         Matrix4x4.Multiply(t1, t2)

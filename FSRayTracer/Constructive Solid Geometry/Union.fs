@@ -4,9 +4,12 @@ module Union =
 
     let private isValidPoint (_, withinStates) =
         match withinStates with
-        | Neither, Geometry1Only
-        | Neither, Geometry2Only -> Some false
-        | _, Neither -> Some true
+        | WithinNeither, WithinGeometry1Only
+        | WithinNeither, WithinGeometry2Only -> Some (Some false)
+        | WithinNeither, TouchingGeometry1Only
+        | WithinNeither, TouchingGeometry2Only -> Some None
+        | WithinGeometry1Only, WithinNeither
+        | WithinGeometry2Only, WithinNeither -> Some (Some true)
         | _ -> None
 
     let create =

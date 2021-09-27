@@ -12,7 +12,7 @@ module Plane =
             { Distance = t
               Location = ray.Origin + t * ray.Direction
               Normal = Vector4.UnitY
-              Inside = false }
+              Inside = None }
 
         if MathF.Abs(ray.Direction.Y) <= Single.Epsilon then
             List.Empty

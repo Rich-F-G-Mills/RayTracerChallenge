@@ -116,7 +116,7 @@ module TriangleMesh =
                             [{ Distance = t
                                Location = ray.Origin + t * ray.Direction
                                Normal = normal
-                               Inside = false }]
+                               Inside = None }]
 
             triangles
             |> List.collect intersectTriangle

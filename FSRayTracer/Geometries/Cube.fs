@@ -44,7 +44,7 @@ module Cube =
             { Distance = t
               Location = touchPoint
               Normal = if inside then -normal else normal
-              Inside = inside }
+              Inside = Some inside }
 
         let xtMin, xtMax = checkAxis(ray.Origin.X, ray.Direction.X)
         let ytMin, ytMax = checkAxis(ray.Origin.Y, ray.Direction.Y)

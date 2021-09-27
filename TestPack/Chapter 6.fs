@@ -12,17 +12,26 @@ type public ``Chapter 06: Light and Shading`` (output: ITestOutputHelper) =
 
     [<Fact>]
     let ``Sphere normal at point on X axis`` () =
-        Assert.Equal(Vector4.UnitX, Sphere.normalAt(Vector4(1.0f, 0.0f, 0.0f, 1.0f)))
+        Assert.Equal(
+            Vector4.UnitX,
+            Sphere.normalAt(Vector4(1.0f, 0.0f, 0.0f, 1.0f))
+        )
 
 
     [<Fact>]
     let ``Sphere normal at point on Y axis`` () =
-        Assert.Equal(Vector4.UnitY, Sphere.normalAt(Vector4(0.0f, 1.0f, 0.0f, 1.0f)))
+        Assert.Equal(
+            Vector4.UnitY,
+            Sphere.normalAt(Vector4(0.0f, 1.0f, 0.0f, 1.0f))
+        )
 
 
     [<Fact>]
     let ``Sphere normal at point on Z axis`` () =
-        Assert.Equal(Vector4.UnitZ, Sphere.normalAt(Vector4(0.0f, 0.0f, 1.0f, 1.0f)))
+        Assert.Equal(
+            Vector4.UnitZ,
+            Sphere.normalAt(Vector4(0.0f, 0.0f, 1.0f, 1.0f))
+        )
 
 
     [<Fact>]

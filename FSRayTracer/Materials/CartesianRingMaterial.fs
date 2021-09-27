@@ -9,7 +9,7 @@ module CartesianRingMaterial =
     let cartesianRingMaterial material1 material2 rStride =
         let inner (location: Vector4) =
             let rDiv =
-                int ((length (location.X, location.Z) + rStride / 2.0f) / rStride)
+                int ((length (location.X, location.Z)) / rStride + 0.5f)
 
             let mapper =
                 if rDiv % 2 = 0 then material2 else material1

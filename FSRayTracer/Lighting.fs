@@ -1,8 +1,7 @@
 ﻿
 namespace FSRayTracer
 
-[<AutoOpen>]
-module PhongLighting =
+module Lighting =
 
     open System
     open System.Numerics
@@ -21,7 +20,7 @@ module PhongLighting =
             { Origin = targetPoint; Direction = lightLocation - targetPoint }
 
         getWorldIntersections scene overPointToLight
-        |> List.tryHead
+        |> List.tryFind hasPositiveDistance
         |> function
             | Some { Distance = d } when d < 1.0f -> true
             | _ -> false
@@ -70,7 +69,7 @@ module PhongLighting =
         phongColourCalculation inShadow material targetPoint rayDirection normalVector light
         
     
-    let usePhongLighting lightSources scene ray intersectionPoint =
+    let colourFromLighting lightSources scene ray intersectionPoint =
         let material =
             intersectionPoint.Material
 

@@ -21,7 +21,7 @@ module Sphere =
             { Distance = t
               Location = touchPoint
               Normal = if inside then -normal else normal
-              Inside = inside }
+              Inside = Some inside }
 
         let sphereToRay = ray.Origin - Vector4.UnitW
 

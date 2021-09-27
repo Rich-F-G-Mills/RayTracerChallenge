@@ -202,11 +202,12 @@ type public ``Chapter 07: Making a Scene`` (output: ITestOutputHelper) =
         let colourizer =
             usePhongLighting [defaultLight]
 
-        Scene.render camera view defaultWorldScene colourizer
-        |> Seq.map (fun (x, y, c) -> (int x, int y, c))
-        |> Seq.tryFind (fun (x, y, _) -> (x = 5) && (y = 5))
+        let pixelWiseRenderer =
+            Scene.createPixelWiseRenderer camera view defaultWorldScene colourizer
+
+        pixelWiseRenderer (5.0f, 5.0f)
         |> function
-            | Some (_, _, ValueSome c) ->
+            | ValueSome c ->
                 Assert.True(ColourDistance(c, { R = 0.38066f; G = 0.47583f; B = 0.2855f }) < 0.0001f)
             | _ ->
                 raise (Xunit.Sdk.XunitException "Unable to get colour of specified pixel.")

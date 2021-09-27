@@ -85,7 +85,7 @@ type public ``Chapter 15: Triangles`` (output: ITestOutputHelper) =
         
     [<Fact>]
     let ``Can parse single OBJ face from file`` () =
-        match OBJFile.loadToMesh "OBJ TEST.OBJ" with
+        match OBJFile.loadToMesh "OBJTEST.TXT" with
         | Mesh [FaceWithoutNormals face] ->
             let expected =
                 [VertexWithoutNormal (Vector3(-1.0f, 1.0f, 0.0f))

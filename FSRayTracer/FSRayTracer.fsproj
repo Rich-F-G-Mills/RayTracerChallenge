@@ -26,7 +26,6 @@
     <Compile Include="Geometries\Transformations.fs" />
     <Compile Include="Geometries\Cube.fs" />
     <Compile Include="Geometries\Cylinder.fs" />
-    <Compile Include="Geometries\Group.fs" />
     <Compile Include="Geometries\Plane.fs" />
     <Compile Include="Geometries\Sphere.fs" />
     <Compile Include="Geometries\TriangleMesh.fs" />
@@ -38,8 +37,11 @@
     <Compile Include="Materials\SolidMaterial.fs" />
     <Compile Include="Materials\TransformedMaterial.fs" />
     <Compile Include="Scene.fs" />
-    <Compile Include="PhongModel.fs" />
+    <Compile Include="Lighting.fs" />
     <Compile Include="Reflection.fs" />
+    <Compile Include="Refraction.fs" />
+    <Compile Include="Colourizer.fs" />
+    <Content Include="Constructive Solid Geometry\Intersection Combinations.txt" />
     <Compile Include="Constructive Solid Geometry\Common.fs" />
     <Compile Include="Constructive Solid Geometry\Intersection.fs" />
     <Compile Include="Constructive Solid Geometry\Union.fs" />

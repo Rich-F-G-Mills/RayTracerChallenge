@@ -25,7 +25,9 @@ module Common =
               Diffuse = 0.9f
               Specular = 0.9f
               Shininess = 200.0f
-              Reflectivity = 0.0f }
+              Reflectivity = 0.0f
+              Transparency = 0.0f
+              RefractiveIndex = 1.0f }
 
     
     type MaterialMapper =

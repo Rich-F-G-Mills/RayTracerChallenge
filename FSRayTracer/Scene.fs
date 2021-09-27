@@ -10,6 +10,7 @@ module public Scene =
     open FSRayTracer.Materials
 
 
+    [<ReferenceEquality>]
     type SceneObject =
         { TransformedGeometry: TransformedGeometry
           MaterialMapper: MaterialMapper }
@@ -26,7 +27,7 @@ module public Scene =
           WorldNormal: Vector4
           Distance: float32
           Material: Material
-          Inside: bool }
+          Inside: bool option }
 
 
     type ViewSettings =
@@ -75,6 +76,10 @@ module public Scene =
           Inside = transformedIntersection.Inside }
 
 
+    let inline internal hasPositiveDistance intersection =
+        intersection.Distance >= 0.0f
+
+
     let internal getWorldIntersections (Scene sceneObjects) ray = 
         let _getTransformedGeometryIntersections =
             getTransformedGeometryIntersections ray
@@ -84,7 +89,6 @@ module public Scene =
             _getTransformedGeometryIntersections sceneObject.TransformedGeometry
             |> List.map (transformedIntersectionToWorldIntersection sceneObject))
         |> List.concat
-        |> List.filter (fun i -> i.Distance >= 0.0f)
         |> List.sortBy (fun i -> i.Distance)
 
 
@@ -162,33 +166,36 @@ module public Scene =
         { Origin = originLocation; Direction = direction }
 
 
-    let render cameraSettings viewSettings scene colourizer =
+    let createPixelWiseRenderer cameraSettings viewSettings scene colourizer =
         let transformedCamera =
             viewSettings
             |> getWorldTransformation
             |> getTransformedCamera cameraSettings
 
-        let _getWorldIntersections = getWorldIntersections scene
-        let _getRayForPixel = getRayForPixel transformedCamera
-        let _colourizer = colourizer scene
+
+        let renderPixel (x, y) =
+            if (x >= 0.0f) && (x <= cameraSettings.Width - 1.0f)
+               && (y >= 0.0f) && (y <= cameraSettings.Height - 1.0f) then
+                let ray = getRayForPixel transformedCamera (x, y)
+                
+                getWorldIntersections scene ray
+                |> colourizer scene ray
+                |> Colour.Clamp
+                    
+            else
+                failwith <| sprintf "Pixel (%f, %f) is out of bounds." x y                
+
+        renderPixel           
+        
+
+    let render cameraSettings viewSettings scene colourizer =
+        let pixelWiseRenderer = 
+            createPixelWiseRenderer cameraSettings viewSettings scene colourizer
 
         seq {
             for y in 0.0f .. (cameraSettings.Height - 1.0f) do
                 for x in 0.0f .. (cameraSettings.Width - 1.0f) do
-                    let ray = _getRayForPixel (x, y)
-
-                    let colour =
-                        ray
-                        |> _getWorldIntersections
-                        |> List.tryHead
-                        |> function
-                           | Some intersectionPoint ->
-                                let (colour: Colour) = _colourizer ray intersectionPoint
-
-                                ValueSome (Colour.Clamp(colour))
-
-                           | None ->
-                                ValueNone
+                    let colour = pixelWiseRenderer (x, y)
 
                     yield (x, y, colour)
         }
